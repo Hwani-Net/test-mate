@@ -5,7 +5,18 @@ import { useI18n } from '@/lib/i18n';
 import { allTests } from '@/lib/tests';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { Brain, Heart, Cat, Palette, Smile, Sparkles, Activity, Play, Star, Zap } from 'lucide-react';
 import styles from './page.module.css';
+
+// Map test slugs to premium SVG icons
+const testIcons: Record<string, React.ReactNode> = {
+  mbti: <Brain className={styles.premiumIcon} />,
+  love: <Heart className={styles.premiumIcon} />,
+  'animal-personality': <Cat className={styles.premiumIcon} />,
+  'personal-color': <Palette className={styles.premiumIcon} />,
+  stress: <Activity className={styles.premiumIcon} />,
+  'first-impression': <Smile className={styles.premiumIcon} />,
+};
 
 // Pastel gradient backgrounds for each test card
 const cardGradients = [
@@ -27,14 +38,14 @@ export default function Home() {
         {/* Hero */}
         <section className={styles.hero}>
           <div className={styles.heroDecorations}>
-            <div className={styles.floatingIcon}>🧠</div>
-            <div className={styles.floatingIcon}>❤️</div>
-            <div className={styles.floatingIcon}>🎨</div>
-            <div className={styles.floatingIcon}>✨</div>
+            <div className={styles.glassOrb} />
+            <div className={styles.glassPill} />
+            <div className={styles.glassOrb} />
+            <div className={styles.glassPill} />
           </div>
           <div className={styles.heroContent}>
             <div className={styles.heroBadge}>
-              ✨ {lang === 'ko' ? '바이럴 심리 테스트' : 'Viral Psychology Tests'}
+              <Sparkles size={16} /> {lang === 'ko' ? '바이럴 심리 테스트' : 'Viral Psychology Tests'}
             </div>
             <h1 className={styles.heroTitle}>
               {t.heroTitle.split('\\n').map((line, i) => (
@@ -47,10 +58,10 @@ export default function Home() {
             <p className={styles.heroSub}>{t.heroSub}</p>
             <div className={styles.heroButtons}>
               <a href="#tests" className={`${styles.heroBtn} ${styles.heroBtnPrimary}`}>
-                {t.heroBtn} 🔥
+                {t.heroBtn} <Zap size={18} fill="currentColor" />
               </a>
               <Link href="/ai-animal" className={`${styles.heroBtn} ${styles.heroBtnSecondary}`}>
-                {lang === 'ko' ? '인기 랭킹 확인' : 'View Rankings'} 📊
+                <Star size={18} /> {lang === 'ko' ? '인기 랭킹 확인' : 'View Rankings'}
               </Link>
             </div>
           </div>
@@ -61,7 +72,7 @@ export default function Home() {
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>{t.testsTitle}</h2>
             <div className={styles.sectionBadge}>
-              🔥 {lang === 'ko' ? '인기 급상승' : 'Trending'}
+              <Zap size={14} fill="white" /> {lang === 'ko' ? '인기 급상승' : 'Trending'}
             </div>
           </div>
           <p className={styles.sectionSub}>{t.testsSub}</p>
@@ -77,7 +88,9 @@ export default function Home() {
                   className={styles.cardIconArea}
                   style={{ background: cardGradients[i % cardGradients.length] }}
                 >
-                  <span className={styles.cardEmoji}>{test.emoji}</span>
+                  <div className={styles.cardIconWrapper}>
+                    {testIcons[test.slug] || <Sparkles className={styles.premiumIcon} />}
+                  </div>
                 </div>
                 <div className={styles.cardContent}>
                   <h3 className={styles.cardTitle}>
@@ -88,10 +101,10 @@ export default function Home() {
                   </p>
                   <div className={styles.cardMeta}>
                     <span className={styles.cardMetaItem}>
-                      ⏱ {t[test.metaKey as keyof typeof t]}
+                      {t[test.metaKey as keyof typeof t]}
                     </span>
                     <span className={styles.cardMetaItem}>
-                      👥 {test.participants.toLocaleString()}
+                      {test.participants.toLocaleString()}
                       {lang === 'ko' ? '명' : ''}
                     </span>
                   </div>
@@ -107,11 +120,13 @@ export default function Home() {
             <h2 className={styles.aiBannerTitle}>{t.aiTitle}</h2>
             <p className={styles.aiBannerSub}>{t.aiSub}</p>
             <Link href="/ai-animal" className={styles.aiBannerBtn}>
-              🐾 {t.aiBtn}
+              <Play size={18} fill="currentColor" /> {t.aiBtn}
             </Link>
           </div>
           <div className={styles.aiBannerEmojis}>
-            <span className={styles.aiBannerEmoji}>🦊</span>
+            <div className={styles.aiGlassOrb}>
+              <Sparkles size={48} strokeWidth={1.5} />
+            </div>
             <div className={styles.aiBannerBadge}>AI</div>
           </div>
         </section>

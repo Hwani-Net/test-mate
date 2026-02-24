@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://testmate-app.vercel.app';
+const BASE_URL = 'https://testmate-wheat.vercel.app';
 
 const testSlugs = ['mbti', 'love', 'animal-personality', 'personal-color', 'stress', 'first-impression'];
 

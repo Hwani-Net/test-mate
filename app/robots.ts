@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://testmate-app.vercel.app/sitemap.xml',
+    sitemap: 'https://testmate-wheat.vercel.app/sitemap.xml',
   };
 }

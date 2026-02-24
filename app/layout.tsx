@@ -2,8 +2,10 @@ import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import './globals.css';
 import { Providers } from './providers';
+import KakaoInit from '@/components/KakaoInit';
 
-const BASE_URL = 'https://testmate-app.vercel.app';
+const BASE_URL = 'https://testmate-wheat.vercel.app';
+const GA_MEASUREMENT_ID = 'G-51HD3TRWHX';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -70,6 +72,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Providers>{children}</Providers>
+        {/* Google Analytics 4 */}
+        <>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script
+            id="ga4-init"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_MEASUREMENT_ID}', {
+                  page_title: document.title,
+                  send_page_view: true
+                });
+              `,
+            }}
+          />
+        </>
+
+        {/* Kakao SDK (client component) */}
+        <KakaoInit />
         {/* Google AdSense */}
         <Script
           async

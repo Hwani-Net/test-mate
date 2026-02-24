@@ -115,9 +115,59 @@
   font-weight: 600;
   color: var(--text-primary);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  justify-content: center;
+}
+.shareBtn svg {
+  flex-shrink: 0;
 }
 .shareBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Kakao – yellow brand */
+.kakaoBtn {
+  background: #FEE500;
+  border-color: #FEE500;
+  color: #191919;
+}
+.kakaoBtn:hover {
+  background: #FADA0A;
+  border-color: #FADA0A;
+  box-shadow: 0 4px 16px rgba(254, 229, 0, 0.4);
+}
+
+/* X (Twitter) – dark */
+.xBtn {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+  color: var(--bg);
+}
+.xBtn:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Copy link – purple accent */
+.copyBtn {
+  border-color: #a855f7;
+  color: #a855f7;
+}
+.copyBtn:hover {
+  background: rgba(168, 85, 247, 0.08);
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.2);
+}
+
+/* Native share */
+.nativeBtn {
+  border-color: var(--border);
+}
+.nativeBtn:hover {
   border-color: #a855f7;
   background: rgba(168, 85, 247, 0.06);
 }

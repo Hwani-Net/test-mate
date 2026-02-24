@@ -8,6 +8,7 @@ import { getTestBySlug, allTests } from '@/lib/tests';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import styles from './page.module.css';
+import AdSlot from '@/components/AdSlot';
 
 function ResultContent() {
   const params = useParams();
@@ -26,6 +27,25 @@ function ResultContent() {
     () => test?.results.find((r) => r.id === resultId),
     [test, resultId],
   );
+
+  const testTitle = useMemo(() => {
+    if (!test) return '';
+    return lang === 'ko'
+      ? (t[test.nameKey as keyof typeof t] || test.nameKey)
+      : (t[test.nameKey as keyof typeof t] || test.nameKey);
+  }, [test, t, lang]);
+
+  const resultTitle = useMemo(() => {
+    if (!result) return '';
+    return lang === 'ko' ? result.title : result.titleEn;
+  }, [result, lang]);
+
+  const resultDesc = useMemo(() => {
+    if (!result) return '';
+    return lang === 'ko' ? result.description : result.descriptionEn;
+  }, [result, lang]);
+
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   const generateCard = useCallback(() => {
     if (!canvasRef.current || !result) return;
@@ -62,7 +82,7 @@ function ResultContent() {
     // Result title
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 32px Inter, sans-serif';
-    ctx.fillText(lang === 'ko' ? result.title : result.titleEn, 300, 280);
+    ctx.fillText(resultTitle, 300, 280);
 
     // Nickname
     if (nickname) {
@@ -74,7 +94,7 @@ function ResultContent() {
     // Description (word wrap)
     ctx.font = '16px Inter, sans-serif';
     ctx.fillStyle = '#d4d4e8';
-    const desc = lang === 'ko' ? result.description : result.descriptionEn;
+    const desc = resultDesc;
     const words = desc.split(' ');
     let line = '';
     let y = 380;
@@ -96,7 +116,7 @@ function ResultContent() {
     ctx.fillText('testmate.app', 300, 760);
 
     setCardGenerated(true);
-  }, [result, nickname, lang]);
+  }, [result, nickname, resultTitle, resultDesc]);
 
   const downloadCard = () => {
     if (!canvasRef.current) return;
@@ -107,18 +127,103 @@ function ResultContent() {
   };
 
   const copyLink = async () => {
-    await navigator.clipboard.writeText(window.location.href);
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+    } catch {
+      // Fallback for older browsers
+      const input = document.createElement('input');
+      input.value = window.location.href;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+    }
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+    // GA4 event
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'share', {
+        method: 'copy_link',
+        content_type: 'test_result',
+        item_id: `${slug}_${resultId}`,
+      });
+    }
+  };
+
+  const shareKakao = () => {
+    if (typeof window === 'undefined') return;
+    const Kakao = (window as any).Kakao;
+    if (!Kakao?.isInitialized?.()) {
+      // Kakao SDK not loaded, fallback to URL scheme
+      window.open(
+        `https://story.kakao.com/share?url=${encodeURIComponent(shareUrl)}`,
+        '_blank',
+        'noopener,noreferrer'
+      );
+      return;
+    }
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: `TestMate — ${resultTitle}`,
+        description: resultDesc,
+        imageUrl: `https://testmate-wheat.vercel.app/api/og?title=${encodeURIComponent(resultTitle)}&sub=${encodeURIComponent(testTitle)}&emoji=${encodeURIComponent(result?.emoji || '🧪')}`,
+        link: {
+          mobileWebUrl: shareUrl,
+          webUrl: shareUrl,
+        },
+      },
+      buttons: [
+        {
+          title: lang === 'ko' ? '나도 테스트하기' : 'Take the Test',
+          link: {
+            mobileWebUrl: `https://testmate-wheat.vercel.app/test/${slug}`,
+            webUrl: `https://testmate-wheat.vercel.app/test/${slug}`,
+          },
+        },
+      ],
+    });
+    // GA4 event
+    if ((window as any).gtag) {
+      (window as any).gtag('event', 'share', {
+        method: 'kakao',
+        content_type: 'test_result',
+        item_id: `${slug}_${resultId}`,
+      });
+    }
+  };
+
+  const shareX = () => {
+    const text = lang === 'ko'
+      ? `나의 ${testTitle} 결과: ${resultTitle}! 🧪 나도 해보기 →`
+      : `My ${testTitle} result: ${resultTitle}! 🧪 Try it →`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
+    window.open(url, '_blank', 'noopener,noreferrer,width=600,height=400');
+    // GA4 event
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'share', {
+        method: 'twitter',
+        content_type: 'test_result',
+        item_id: `${slug}_${resultId}`,
+      });
+    }
   };
 
   const shareNative = async () => {
     if (navigator.share) {
       await navigator.share({
-        title: `TestMate — ${lang === 'ko' ? result?.title : result?.titleEn}`,
-        text: lang === 'ko' ? result?.description : result?.descriptionEn,
+        title: `TestMate — ${resultTitle}`,
+        text: resultDesc,
         url: window.location.href,
       });
+      // GA4 event
+      if ((window as any).gtag) {
+        (window as any).gtag('event', 'share', {
+          method: 'native',
+          content_type: 'test_result',
+          item_id: `${slug}_${resultId}`,
+        });
+      }
     }
   };
 
@@ -140,10 +245,10 @@ function ResultContent() {
           <p className={styles.resultLabel}>{t.resultTitle}</p>
           <div className={styles.emojiWrap}>{result.emoji}</div>
           <h1 className={styles.resultTitle}>
-            {lang === 'ko' ? result.title : result.titleEn}
+            {resultTitle}
           </h1>
           <p className={styles.resultDesc}>
-            {lang === 'ko' ? result.description : result.descriptionEn}
+            {resultDesc}
           </p>
         </div>
 
@@ -178,14 +283,29 @@ function ResultContent() {
         <div className={`glass-card ${styles.shareSection}`}>
           <h3 className={styles.shareTitle}>{t.shareTitle}</h3>
           <div className={styles.shareGrid}>
-            <button className={styles.shareBtn} onClick={shareNative}>
-              📤 {t.shareCopy.includes('복') ? '공유' : 'Share'}
+            <button className={`${styles.shareBtn} ${styles.kakaoBtn}`} onClick={shareKakao}>
+              <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M128 36C70.562 36 24 72.713 24 118c0 29.279 19.466 54.97 48.748 69.477-1.593 5.494-10.237 35.344-10.581 37.689 0 0-.207 1.726.914 2.381 1.121.655 2.438.152 2.438.152 3.218-.448 37.27-24.356 43.141-28.542 6.335.936 12.877 1.443 19.54 1.443C185.438 200.6 232 163.887 232 118.6 232 72.713 185.438 36 128 36z"/></svg>
+              {t.shareKakao}
             </button>
-            <button className={styles.shareBtn} onClick={copyLink}>
-              🔗 {copied ? t.copySuccess : t.shareCopy}
+            <button className={`${styles.shareBtn} ${styles.xBtn}`} onClick={shareX}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              {t.shareX}
             </button>
+            <button className={`${styles.shareBtn} ${styles.copyBtn}`} onClick={copyLink}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              {copied ? t.copySuccess : t.shareCopy}
+            </button>
+            {typeof window !== 'undefined' && typeof navigator !== 'undefined' && 'share' in navigator && (
+              <button className={`${styles.shareBtn} ${styles.nativeBtn}`} onClick={shareNative}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                {lang === 'ko' ? '더 보기' : 'More'}
+              </button>
+            )}
           </div>
         </div>
+
+        {/* 🔵 AdSense — 공유 섹션과 다른 테스트 사이 (가장 클릭율 높음) */}
+        <AdSlot format="rectangle" style={{ maxWidth: 400, margin: '8px auto 16px' }} />
 
         {/* Other tests */}
         <div className={styles.otherSection}>
@@ -205,6 +325,8 @@ function ResultContent() {
           </div>
         </div>
       </main>
+      {/* 🔵 AdSense — 페이지 하단 */}
+      <AdSlot format="horizontal" style={{ maxWidth: 728, margin: '0 auto 16px' }} />
       <Footer />
     </>
   );

@@ -110,7 +110,7 @@
   transform: translateY(-2px);
 }
 
-/* Floating 3D Icons */
+/* Floating 3D Geometric Shapes (Replacing standard emojis) */
 .heroDecorations {
   position: absolute;
   top: 0;
@@ -121,59 +121,94 @@
   z-index: 1;
 }
 
-.floatingIcon {
+.glassOrb {
   position: absolute;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.1) 100%);
+  box-shadow: 
+    inset 0 0 20px rgba(255,255,255,0.8),
+    inset 10px 0 20px rgba(168,85,247,0.3),
+    inset -10px 0 20px rgba(236,72,153,0.3),
+    0 15px 35px rgba(0,0,0,0.1);
+  backdrop-filter: blur(12px);
   animation: float 6s ease-in-out infinite;
 }
 
-.floatingIcon:nth-child(1) {
-  top: 15%;
-  right: 12%;
-  width: 72px;
-  height: 72px;
-  background: linear-gradient(135deg, #a855f7, #7c3aed);
+[data-theme="dark"] .glassOrb {
+  background: linear-gradient(135deg, rgba(168,85,247,0.4) 0%, rgba(255,255,255,0.05) 100%);
+  box-shadow: 
+    inset 0 0 20px rgba(255,255,255,0.2),
+    inset 10px 0 20px rgba(168,85,247,0.4),
+    inset -10px 0 20px rgba(0,0,0,0.5),
+    0 15px 35px rgba(0,0,0,0.3);
+}
+
+.glassPill {
+  position: absolute;
+  border-radius: 40px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 100%);
+  box-shadow: 
+    inset 2px 2px 10px rgba(255,255,255,0.8),
+    inset -4px -4px 15px rgba(0,0,0,0.05),
+    0 10px 30px rgba(168,85,247,0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.6);
+  animation: float 7s ease-in-out infinite reverse;
+}
+
+[data-theme="dark"] .glassPill {
+  background: linear-gradient(135deg, rgba(236,72,153,0.3) 0%, rgba(255,255,255,0.05) 100%);
+  border-color: rgba(255,255,255,0.1);
+  box-shadow: 
+    inset 2px 2px 10px rgba(255,255,255,0.2),
+    inset -4px -4px 15px rgba(0,0,0,0.4),
+    0 10px 30px rgba(0,0,0,0.3);
+}
+
+.glassOrb:nth-child(1) {
+  top: 15%; right: 15%;
+  width: 90px; height: 90px;
   animation-delay: 0s;
 }
 
-.floatingIcon:nth-child(2) {
-  top: 45%;
-  right: 8%;
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, #ec4899, #f43f5e);
-  border-radius: 50%;
+.glassPill:nth-child(2) {
+  top: 40%; right: 8%;
+  width: 120px; height: 60px;
+  transform: rotate(-15deg);
   animation-delay: 1s;
 }
 
-.floatingIcon:nth-child(3) {
-  bottom: 20%;
-  right: 18%;
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+.glassOrb:nth-child(3) {
+  bottom: 25%; right: 25%;
+  width: 60px; height: 60px;
+  box-shadow: 
+    inset 0 0 15px rgba(255,255,255,0.8),
+    inset 8px 0 15px rgba(6,182,212,0.3),
+    inset -8px 0 15px rgba(59,130,246,0.3),
+    0 10px 25px rgba(0,0,0,0.1);
   animation-delay: 2s;
 }
 
-.floatingIcon:nth-child(4) {
-  top: 25%;
-  right: 30%;
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #f59e0b, #ef4444);
-  border-radius: 16px;
+[data-theme="dark"] .glassOrb:nth-child(3) {
+  box-shadow: 
+    inset 0 0 15px rgba(255,255,255,0.2),
+    inset 8px 0 15px rgba(6,182,212,0.4),
+    inset -8px 0 15px rgba(0,0,0,0.5),
+    0 10px 25px rgba(0,0,0,0.3);
+}
+
+.glassPill:nth-child(4) {
+  top: 25%; right: 35%;
+  width: 70px; height: 70px;
+  border-radius: 20px;
+  transform: rotate(25deg);
   animation-delay: 3s;
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0) rotate(0deg); }
-  33% { transform: translateY(-12px) rotate(3deg); }
-  66% { transform: translateY(8px) rotate(-3deg); }
+  33% { transform: translateY(-12px) rotate(4deg); }
+  66% { transform: translateY(8px) rotate(-4deg); }
 }
 
 /* ===== SECTION ===== */
@@ -229,7 +264,7 @@
   .heroTitle {
     font-size: 2rem;
   }
-  .floatingIcon {
+  .glassOrb, .glassPill {
     display: none;
   }
 }
@@ -268,7 +303,7 @@
 }
 
 .cardIconArea {
-  height: 140px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -276,11 +311,35 @@
   overflow: hidden;
 }
 
-.cardEmoji {
-  font-size: 3.5rem;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-  position: relative;
-  z-index: 1;
+.cardIconWrapper {
+  width: 72px;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  color: var(--text-primary);
+  transition: transform 0.3s ease;
+}
+
+[data-theme="dark"] .cardIconWrapper {
+  background: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.card:hover .cardIconWrapper {
+  transform: scale(1.08) rotate(4deg);
+}
+
+.premiumIcon {
+  width: 32px;
+  height: 32px;
+  stroke-width: 1.5;
 }
 
 .cardContent {
@@ -301,6 +360,7 @@
   margin-bottom: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -405,13 +465,25 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
 }
 
-.aiBannerEmoji {
-  font-size: 3.5rem;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+.aiGlassOrb {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.05) 100%);
+  box-shadow: 
+    inset 2px 2px 10px rgba(255,255,255,0.6),
+    inset -5px -5px 20px rgba(0,0,0,0.1),
+    0 12px 40px rgba(0,0,0,0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
 .aiBannerBadge {
@@ -422,6 +494,8 @@
   font-size: 0.85rem;
   font-weight: 700;
   color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 @media (max-width: 768px) {
