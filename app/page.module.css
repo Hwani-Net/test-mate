@@ -1,0 +1,113 @@
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Hero */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 80px 0 60px;
+}
+
+.heroEmoji {
+  font-size: 64px;
+  animation: float 3s ease-in-out infinite;
+  margin-bottom: 20px;
+}
+
+.heroTitle {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+}
+
+.heroSub {
+  font-size: clamp(14px, 2.5vw, 18px);
+  color: var(--text-secondary);
+  max-width: 400px;
+}
+
+/* Section */
+.section {
+  padding: 40px 0 60px;
+}
+.sectionSub {
+  color: var(--text-secondary);
+  font-size: 15px;
+  margin-top: 8px;
+  margin-bottom: 32px;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Card */
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 24px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: cardFadeIn 0.5s ease forwards;
+  opacity: 0;
+}
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
+}
+
+.cardBadge {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.cardEmoji { font-size: 28px; filter: brightness(10); }
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.cardDesc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.cardMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* AI Section */
+.aiSection {
+  padding: 0 0 80px;
+}

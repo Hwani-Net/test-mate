@@ -1,0 +1,227 @@
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@import "tailwindcss";
+
+/* ── Design Tokens — Light Mode (Default) ── */
+:root {
+  --bg-base: #fafafa;
+  --bg-surface: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.72);
+  --card-border: rgba(255, 255, 255, 0.6);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0,0,0,0.04);
+  --text-primary: #0f0f1a;
+  --text-secondary: #52527a;
+  --text-muted: #9090b0;
+  --border: rgba(0, 0, 0, 0.06);
+
+  /* Brand gradients */
+  --grad-primary: linear-gradient(135deg, #a855f7, #ec4899);
+  --grad-secondary: linear-gradient(135deg, #06b6d4, #6366f1);
+  --grad-warm: linear-gradient(135deg, #f97316, #ec4899);
+  --grad-cool: linear-gradient(135deg, #06b6d4, #3b82f6);
+
+  /* Test card gradients */
+  --grad-mbti: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+  --grad-love: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%);
+  --grad-animal: linear-gradient(135deg, #f97316 0%, #eab308 100%);
+  --grad-color: linear-gradient(135deg, #06b6d4 0%, #a855f7 100%);
+  --grad-stress: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  --grad-impression: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+
+  --radius-card: 20px;
+  --radius-btn: 14px;
+  --blur-glass: blur(16px);
+}
+
+/* ── Dark Mode ── */
+[data-theme="dark"] {
+  --bg-base: #0d0d1a;
+  --bg-surface: #16162a;
+  --bg-card: rgba(22, 22, 42, 0.72);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0,0,0,0.2);
+  --text-primary: #f0f0ff;
+  --text-secondary: #a0a0c8;
+  --text-muted: #6060a0;
+  --border: rgba(255, 255, 255, 0.06);
+}
+
+/* ── Base Styles ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100dvh;
+}
+
+/* ── Glassmorphism Card ── */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius-card);
+}
+
+/* ── Gradient Text ── */
+.grad-text {
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Gradient Button ── */
+.btn-primary {
+  background: var(--grad-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-btn);
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(168, 85, 247, 0.4);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* ── Ghost Button ── */
+.btn-ghost {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-btn);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-ghost:hover {
+  border-color: #a855f7;
+  color: #a855f7;
+  background: rgba(168, 85, 247, 0.05);
+}
+
+/* ── Section Titles ── */
+.section-title {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+/* ── Micro Animations ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+@keyframes confetti-fall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.animate-fadeInUp { animation: fadeInUp 0.6s ease forwards; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+
+/* ── Glass Card ── */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  border: none;
+  border-radius: var(--radius-btn);
+  background: var(--grad-primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.3);
+}
+.btn-primary:active { transform: scale(0.97); }
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-btn);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.btn-ghost:hover {
+  border-color: #a855f7;
+  color: #a855f7;
+  background: rgba(168, 85, 247, 0.06);
+}
+.btn-ghost:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Section Title ── */
+.section-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+}

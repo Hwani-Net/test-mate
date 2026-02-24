@@ -1,0 +1,128 @@
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+  min-height: calc(100dvh - 60px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60dvh;
+  gap: 20px;
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+
+/* Intro */
+.introCard {
+  padding: 48px 32px;
+  text-align: center;
+  width: 100%;
+}
+.introBadge {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+.introTitle {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.introDesc {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.introMeta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+/* Progress */
+.progressWrap {
+  width: 100%;
+  margin-bottom: 24px;
+}
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+.progressText {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+/* Quiz */
+.quizCard {
+  width: 100%;
+  padding: 40px 28px;
+  animation: fadeInUp 0.4s ease forwards;
+}
+.questionText {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 32px;
+  color: var(--text-primary);
+}
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.option {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-btn);
+  background: transparent;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+.option:hover {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.06);
+  transform: translateX(4px);
+}
+.optionSelected {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.12);
+  color: #a855f7;
+  transform: scale(0.98);
+}
+
+/* Nav */
+.quizNav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 20px;
+}

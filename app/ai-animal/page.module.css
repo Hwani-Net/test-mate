@@ -1,0 +1,82 @@
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+  min-height: calc(100dvh - 60px);
+}
+
+.card {
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  background: var(--grad-warm);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+/* Upload */
+.uploadZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.uploadZone:hover {
+  border-color: #a855f7;
+  background: rgba(168, 85, 247, 0.04);
+}
+.uploadText {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.uploadSub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Preview */
+.previewWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.preview {
+  width: 240px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid var(--border);
+}
+
+/* Result */
+.resultWrap {
+  animation: fadeInUp 0.5s ease forwards;
+}
+.resultEmoji {
+  font-size: 80px;
+  animation: float 3s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+.resultTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
